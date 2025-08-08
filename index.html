@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuida Mais App - Cuidado para idosos</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.4/dist/full.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .hero-pattern {
+            background-color: #f8fafc;
+            background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d1d5db' fill-opacity='0.4'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .app-screenshot {
+            border-radius: 30px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navbar -->
+    <div class="navbar bg-base-100 shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto">
+            <div class="flex-1">
+                <a class="text-2xl font-bold text-primary flex items-center gap-2">
+                    <i class="fas fa-heart-pulse text-primary"></i>
+                    Cuida Mais App
+                </a>
+            </div>
+            <div class="flex-none gap-2">
+                <div class="hidden md:flex">
+                    <ul class="menu menu-horizontal px-1 font-medium">
+                        <li><a href="#recursos">Recursos</a></li>
+                        <li><a href="#como-funciona">Como Funciona</a></li>
+                        <li><a href="#depoimentos">Depoimentos</a></li>
+                        <li><a href="#planos">Planos</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown dropdown-end md:hidden">
+                    <label tabindex="0" class="btn btn-ghost btn-circle">
+                        <i class="fas fa-bars text-xl"></i>
+                    </label>
+                    <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                        <li><a href="#recursos">Recursos</a></li>
+                        <li><a href="#como-funciona">Como Funciona</a></li>
+                        <li><a href="#depoimentos">Depoimentos</a></li>
+                        <li><a href="#planos">Planos</a></li>
+                    </ul>
+                </div>
+                <button class="btn btn-primary" onclick="document.getElementById('modal-auth').showModal()">Entrar</button>
+                
+                <!-- Modal de Autenticação -->
+                <dialog id="modal-auth" class="modal">
+                    <div class="modal-box">
+                        <div class="tabs tabs-boxed mb-4">
+                            <a class="tab tab-active" onclick="showLoginForm()">Login</a>
+                            <a class="tab" onclick="showRegisterForm()">Cadastro</a>
+                        </div>
+                        
+                        <!-- Formulário de Login -->
+                        <form id="login-form">
+                            <h3 class="font-bold text-lg mb-4">Entre na sua conta</h3>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">Email</span>
+                                </label>
+                                <input type="email" id="login-email" placeholder="seu@email.com" class="input input-bordered" required />
+                            </div>
+                            <div class="form-control mt-4">
+                                <label class="label">
+                                    <span class="label-text">Senha</span>
+                                </label>
+                                <input type="password" id="login-password" placeholder="********" class="input input-bordered" required />
+                                <label class="label">
+                                    <a href="#" class="label-text-alt link link-hover">Esqueceu a senha?</a>
+                                </label>
+                            </div>
+                            <div class="form-control mt-6">
+                                <button type="button" class="btn btn-primary" onclick="loginUser()">Entrar</button>
+                            </div>
+                        </form>
+                        
+                        <!-- Formulário de Cadastro (inicialmente oculto) -->
+                        <form id="register-form" style="display: none;">
+                            <h3 class="font-bold text-lg mb-4">Crie sua conta</h3>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">Nome</span>
+                                </label>
+                                <input type="text" id="register-name" placeholder="Seu nome completo" class="input input-bordered" required />
+<form id="register-form" style="display: none;">
+    <h3 class="font-bold text-lg mb-4">Crie sua conta</h3>
+    <div class="form-control mb-4">
+        <label class="label">
+            <span class="label-text">Você é:</span>
+        </label>
+        <div class="flex gap-4">
+            <label class="flex flex-col items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-all user-type-option">
+                <input type="radio" name="user-type" value="idoso" class="radio radio-primary mb-2" required />
+                <i class="fas fa-user-plus text-3xl mb-2 text-primary"></i>
+                <span>Idoso</span>
+                <span class="text-xs text-gray-500 text-center mt-1">Vou usar o app para meu cuidado</span>
+            </label>
+            <label class="flex flex-col items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-all user-type-option">
+                <input type="radio" name="user-type" value="familiar" class="radio radio-primary mb-2" required />
+                <i class="fas fa-users text-3xl mb-2 text-primary"></i>
+                <span>Familiar</span>
+                <span class="text-xs text-gray-500 text-center mt-1">Vou cuidar de alguém</span>
+            </label>
+        </div>
+    </div>
+    <div class="form-control">
+        <label class="label">
+            <span class="label-text">Nome</span>
+        </label>
+        <input type="text" id="register-name" placeholder="Seu nome completo" class="input input-bordered" required />
+    </div>
+                                <label class="label">
+                                    <span class="label-text">Senha</span>
+                                </label>
+                                <input type="password" id="register-password" placeholder="********" class="input input-bordered" required />
+                            </div>
+                            <div class="form-control mt-4">
+                                <label class="label">
+                                    <span class="label-text">Confirmar Senha</span>
+                                </label>
+                                <input type="password" id="register-confirm-password" placeholder="********" class="input input-bordered" required />
+                            </div>
+                            <div class="form-control mt-6">
+                                <button type="button" class="btn btn-primary" onclick="registerUser()">Cadastrar</button>
+                            </div>
+                        </form>
+                    </div>
+                    <form method="dialog" class="modal-backdrop">
+                        <button>Fechar</button>
+                    </form>
+                </dialog>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero min-h-[85vh] hero-pattern">
+        <div class="container mx-auto px-4 py-16">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2 text-center lg:text-left">
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
+                        Cuidado e tranquilidade para toda a família
+                    </h1>
+                    <p class="py-6 text-lg text-gray-600 max-w-xl">
+                        Ajudamos idosos a manterem sua independência enquanto proporcionamos tranquilidade para seus familiares através de um acompanhamento simples e amoroso.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <button class="btn btn-primary btn-lg">
+                            <i class="fas fa-play-circle mr-2"></i>
+                            Começar agora
+                        </button>
+                        <button class="btn btn-outline btn-lg">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            Saiba mais
+                        </button>
+                    </div>
+                    <div class="mt-8 flex items-center justify-center lg:justify-start">
+                        <div class="avatar-group -space-x-4 rtl:space-x-reverse">
+                            <div class="avatar border-white">
+                                <div class="w-12">
+                                    <img src="https://randomuser.me/api/portraits/women/79.jpg" />
+                                </div>
+                            </div>
+                            <div class="avatar border-white">
+                                <div class="w-12">
+                                    <img src="https://randomuser.me/api/portraits/men/51.jpg" />
+                                </div>
+                            </div>
+                            <div class="avatar border-white">
+                                <div class="w-12">
+                                    <img src="https://randomuser.me/api/portraits/women/42.jpg" />
+                                </div>
+                            </div>
+                            <div class="avatar placeholder border-white">
+                                <div class="w-12 bg-primary text-white">
+                                    <span>+99</span>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="ml-4 text-gray-600">Mais de 1.000 famílias confiam em nós</span>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 relative">
+                    <div class="relative">
+                        <img src="https://i.imgur.com/KR1VHPJ.png" alt="Cuida Mais App" class="app-screenshot max-w-sm mx-auto">
+                        <div class="absolute -top-4 -right-4 bg-warning text-warning-content text-sm font-bold px-3 py-1 rounded-full shadow-lg">
+                            Fácil de usar!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section id="recursos" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800">Recursos que facilitam o cuidado</h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+                    Nossa plataforma foi projetada pensando nas necessidades específicas dos idosos e seus cuidadores.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="card bg-base-100 shadow-md hover:shadow-xl transition-all duration-300 feature-card">
+                    <div class="card-body">
+                        <div class="bg-primary/10 w-14 h-14 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-pills text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="card-title text-xl">Lembretes de Medicamentos</h3>
+                        <p class="text-gray-600">Notificações amigáveis que ajudam a manter o horário correto dos medicamentos, com confirmação simples.</p>
+                    </div>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="card bg-base-100 shadow-md hover:shadow-xl transition-all duration-300 feature-card">
+                    <div class="card-body">
+                        <div class="bg-secondary/10 w-14 h-14 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-face-smile text-secondary text-2xl"></i>
+                        </div>
+                        <h3 class="card-title text-xl">Check-in de Humor</h3>
+                        <p class="text-gray-600">Interface simples com emojis para que o idoso possa expressar como está se sentindo diariamente.</p>
+                    </div>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="card bg-base-100 shadow-md hover:shadow-xl transition-all duration-300 feature-card">
+                    <div class="card-body">
+                        <div class="bg-accent/10 w-14 h-14 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-calendar-check text-accent text-2xl"></i>
+                        </div>
+                        <h3 class="card-title text-xl">Agenda de Atividades</h3>
+                        <p class="text-gray-600">Organize consultas médicas e atividades importantes com lembretes antecipados.</p>
+                    </div>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="card bg-base-100 shadow-md hover:shadow-xl transition-all duration-300 feature-card">
+                    <div class="card-body">
+                        <div class="bg-success/10 w-14 h-14 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-comment-dots text-success text-2xl"></i>
+                        </div>
+                        <h3 class="card-title text-xl">Mensagens de Carinho</h3>
+                        <p class="text-gray-600">Familiares podem enviar mensagens de texto, áudio e imagens para manter o contato afetivo.</p>
+                    </div>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="card bg-base-100 shadow-md hover:shadow-xl transition-all duration-300 feature-card">
+                    <div class="card-body">
+                        <div class="bg-error/10 w-14 h-14 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-bell text-error text-2xl"></i>
+                        </div>
+                        <h3 class="card-title text-xl">Botão de Emergência</h3>
+                        <p class="text-gray-600">Acesso rápido para notificar familiares em caso de necessidade urgente via WhatsApp.</p>
+                    </div>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="card bg-base-100 shadow-md hover:shadow-xl transition-all duration-300 feature-card">
+                    <div class="card-body">
+                        <div class="bg-info/10 w-14 h-14 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-chart-line text-info text-2xl"></i>
+                        </div>
+                        <h3 class="card-title text-xl">Relatórios Simples</h3>
+                        <p class="text-gray-600">Acompanhamento do histórico de medicamentos, humor e atividades em relatórios fáceis de entender.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works -->
+    <section id="como-funciona" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800">Como o Cuida Mais App funciona</h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+                    Um processo simples para garantir o bem-estar e a tranquilidade de toda a família
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white text-xl font-bold mb-4">1</div>
+                    <h3 class="text-xl font-bold mb-2">Cadastro Simplificado</h3>
+                    <p class="text-gray-600">O familiar ou cuidador cria uma conta e adiciona as informações básicas do idoso.</p>
+                    <img src="https://i.imgur.com/Oa8QvU6.png" alt="Cadastro" class="mt-6 rounded-lg shadow-md">
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white text-xl font-bold mb-4">2</div>
+                    <h3 class="text-xl font-bold mb-2">Configuração Personalizada</h3>
+                    <p class="text-gray-600">Configure medicamentos, rotinas e atividades de acordo com as necessidades específicas.</p>
+                    <img src="https://i.imgur.com/jNPYHYw.png" alt="Configuração" class="mt-6 rounded-lg shadow-md">
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white text-xl font-bold mb-4">3</div>
+                    <h3 class="text-xl font-bold mb-2">Acompanhamento Contínuo</h3>
+                    <p class="text-gray-600">O idoso recebe lembretes e o familiar acompanha tudo pelo painel de controle.</p>
+                    <img src="https://i.imgur.com/ZWBp6Lc.png" alt="Acompanhamento" class="mt-6 rounded-lg shadow-md">
+                </div>
+            </div>
+            
+            <div class="mt-16 text-center">
+                <button class="btn btn-primary btn-lg">
+                    <i class="fas fa-user-plus mr-2"></i>
+                    Começar agora
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="depoimentos" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800">O que nossas famílias dizem</h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+                    Histórias reais de pessoas que transformaram o cuidado com seus entes queridos
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="card bg-base-100 shadow-md">
+                    <div class="card-body">
+                        <div class="flex items-center mb-4">
+                            <div class="rating rating-sm">
+                                <input type="radio" name="rating-1" class="mask mask-star-2 bg-orange-400" checked />
+                                <input type="radio" name="rating-1" class="mask mask-star-2 bg-orange-400" checked />
+                                <input type="radio" name="rating-1" class="mask mask-star-2 bg-orange-400" checked />
+                                <input type="radio" name="rating-1" class="mask mask-star-2 bg-orange-400" checked />
+                                <input type="radio" name="rating-1" class="mask mask-star-2 bg-orange-400" checked />
+                            </div>
+                        </div>
+                        <p class="text-gray-600 italic">"Minha mãe de 75 anos agora consegue gerenciar seus medicamentos sozinha. O aplicativo é tão simples que ela aprendeu a usar em poucos minutos. Estou muito mais tranquila sabendo que ela está seguindo o tratamento corretamente."</p>
+                        <div class="flex items-center mt-4">
+                            <div class="avatar">
+                                <div class="w-12 rounded-full">
+                                    <img src="https://randomuser.me/api/portraits/women/32.jpg" />
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="font-bold">Ana Paula</h4>
+                                <p class="text-sm text-gray-500">Filha de usuária</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="card bg-base-100 shadow-md">
+                    <div class="card-body">
+                        <div class="flex items-center mb-4">
+                            <div class="rating rating-sm">
+                                <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
+                                <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
+                                <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
+                                <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
+                                <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
+                            </div>
+                        </div>
+                        <p class="text-gray-600 italic">"Como cuidador profissional, posso dizer que este aplicativo facilitou muito meu trabalho. Consigo acompanhar vários idosos ao mesmo tempo e receber alertas quando algo não está certo. A função de check-in de humor é excelente para monitorar o bem-estar emocional."</p>
+                        <div class="flex items-center mt-4">
+                            <div class="avatar">
+                                <div class="w-12 rounded-full">
+                                    <img src="https://randomuser.me/api/portraits/men/45.jpg" />
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="font-bold">Carlos Mendes</h4>
+                                <p class="text-sm text-gray-500">Cuidador profissional</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="card bg-base-100 shadow-md">
+                    <div class="card-body">
+                        <div class="flex items-center mb-4">
+                            <div class="rating rating-sm">
+                                <input type="radio" name="rating-3" class="mask mask-star-2 bg-orange-400" checked />
+                                <input type="radio" name="rating-3" class="mask mask-star-2 bg-orange-400" checked />
+                                <input type="radio" name="rating-3" class="mask mask-star-2 bg-orange-400" checked />
+                                <input type="radio" name="rating-3" class="mask mask-star-2 bg-orange-400" checked />
+                                <input type="radio" name="rating-3" class="mask mask-star-2 bg-orange-400" />
+                            </div>
+                        </div>
+                        <p class="text-gray-600 italic">"Tenho 68 anos e uso o aplicativo todos os dias. As notificações são claras e os botões são grandes, o que facilita muito para mim. Meus filhos moram longe e agora conseguem acompanhar minha saúde. O botão de emergência me dá segurança para continuar morando sozinho."</p>
+                        <div class="flex items-center mt-4">
+                            <div class="avatar">
+                                <div class="w-12 rounded-full">
+                                    <img src="https://randomuser.me/api/portraits/men/67.jpg" />
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="font-bold">José Antônio</h4>
+                                <p class="text-sm text-gray-500">Usuário do aplicativo</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="planos" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800">Planos acessíveis para todas as necessidades</h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+                    Escolha o plano ideal para você e sua família, sem compromissos de longo prazo
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Free Plan -->
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h3 class="text-xl font-bold text-center">Plano Gratuito</h3>
+                        <div class="text-center my-4">
+                            <span class="text-4xl font-bold">R$0</span>
+                            <span class="text-gray-500">/sempre</span>
+                        </div>
+                        <div class="divider"></div>
+                        <ul class="space-y-3">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-success mr-2"></i>
+                                <span>1 perfil de idoso</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-success mr-2"></i>
+                                <span>Cadastro de 2 medicamentos</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-success mr-2"></i>
+                                <span>Cadastro de 2 eventos na agenda</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-success mr-2"></i>
+                                <span>Até 3 mensagens familiares por semana</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-success mr-2"></i>
+                                <span>Acesso limitado a relatórios</span>
+                            </li>
+                        </ul>
+                        <div class="card-actions justify-center mt-6">
+                            <button class="btn btn-outline btn-primary btn-block">Começar Grátis</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Premium Monthly Plan -->
+                <div class="card bg-primary text-primary-content shadow-xl relative">
+                    <div class="absolute -top-4 left-0 right-0 flex justify-center">
+                        <span class="badge badge-secondary badge-lg">MAIS POPULAR</span>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="text-xl font-bold text-center">Plano Premium Mensal</h3>
+                        <div class="text-center my-4">
+                            <span class="text-4xl font-bold">R$29</span>
+                            <span>/mês</span>
+                        </div>
+                        <div class="divider"></div>
+                        <ul class="space-y-3">
+                            <li class="flex items-center">
+                                <i class="fas fa-check mr-2"></i>
+                                <span>Cadastro de múltiplos idosos</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check mr-2"></i>
+                                <span>Medicamentos ilimitados</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check mr-2"></i>
+                                <span>Relatórios completos</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check mr-2"></i>
+                                <span>Alertas personalizados</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check mr-2"></i>
+                                <span>Suporte prioritário</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check mr-2"></i>
+                                <span>Mensagens ilimitadas</span>
+                            </li>
+                        </ul>
+                        <div class="card-actions justify-center mt-6">
+                            <button class="btn btn-secondary btn-block">Assinar Agora</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Premium Annual Plan -->
+                <div class="card bg-base-100 shadow-xl relative">
+                    <div class="absolute -top-4 left-0 right-0 flex justify-center">
+                        <span class="badge badge-success badge-lg">ECONOMIZE 30%</span>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="text-xl font-bold text-center">Plano Premium Anual</h3>
+                        <div class="text-center my-4">
+                            <span class="text-4xl font-bold">R$243</span>
+                            <span class="text-gray-500">/ano</span>
+                            <p class="text-sm text-success font-medium mt-1">Apenas R$20,25/mês</p>
+                        </div>
+                        <div class="divider"></div>
+                        <ul class="space-y-3">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-success mr-2"></i>
+                                <span>Cadastro de múltiplos idosos</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-success mr-2"></i>
+                                <span>Medicamentos ilimitados</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-success mr-2"></i>
+                                <span>Relatórios completos</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-success mr-2"></i>
+                                <span>Alertas personalizados</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-success mr-2"></i>
+                                <span>Suporte prioritário</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-success mr-2"></i>
+                                <span>Mensagens ilimitadas</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-success mr-2"></i>
+                                <span>Recursos exclusivos</span>
+                            </li>
+                        </ul>
+                        <div class="card-actions justify-center mt-6">
+                            <button class="btn btn-outline btn-success btn-block">Economizar com Plano Anual</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <p class="text-gray-600 mb-4">Experimente o plano premium por 7 dias grátis. Cancele a qualquer momento.</p>
+                <button class="btn btn-link text-primary">Ver comparação completa dos planos</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800">Perguntas frequentes</h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+                    Tire suas dúvidas sobre o Cuida Mais App
+                </p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto">
+                <div class="join join-vertical w-full">
+                    <div class="collapse collapse-arrow join-item border border-base-300">
+                        <input type="radio" name="my-accordion-4" checked="checked" /> 
+                        <div class="collapse-title text-lg font-medium">
+                            O aplicativo é fácil de usar para idosos com pouca experiência com tecnologia?
+                        </div>
+                        <div class="collapse-content"> 
+                            <p>Sim! O Cuida Mais App foi especialmente projetado para ser intuitivo e acessível para idosos com pouca ou nenhuma experiência com tecnologia. Utilizamos botões grandes, textos claros e uma navegação simplificada. Além disso, oferecemos tutoriais em vídeo e suporte dedicado para ajudar na adaptação.</p>
+                        </div>
+                    </div>
+                    <div class="collapse collapse-arrow join-item border border-base-300">
+                        <input type="radio" name="my-accordion-4" /> 
+                        <div class="collapse-title text-lg font-medium">
+                            Como funciona o botão de emergência?
+                        </div>
+                        <div class="collapse-content"> 
+                            <p>O botão de emergência é uma função de acesso rápido que, quando acionado, envia imediatamente uma notificação via WhatsApp para os contatos cadastrados como cuidadores principais. A mensagem inclui a localização atual do idoso e um alerta de que ele precisa de assistência.</p>
+                        </div>
+                    </div>
+                    <div class="collapse collapse-arrow join-item border border-base-300">
+                        <input type="radio" name="my-accordion-4" /> 
+                        <div class="collapse-title text-lg font-medium">
+                            Posso monitorar mais de um idoso com a mesma conta?
+                        </div>
+                        <div class="collapse-content"> 
+                            <p>Sim! Dependendo do plano escolhido, você pode monitorar de 1 a múltiplos idosos com a mesma conta. O Plano Básico permite 1 perfil, o Plano Família permite até 3 perfis, e o Plano Profissional oferece perfis ilimitados, ideal para cuidadores profissionais.</p>
+                        </div>
+                    </div>
+                    <div class="collapse collapse-arrow join-item border border-base-300">
+                        <input type="radio" name="my-accordion-4" /> 
+                        <div class="collapse-title text-lg font-medium">
+                            As informações de saúde são seguras no aplicativo?
+                        </div>
+                        <div class="collapse-content"> 
+                            <p>Absolutamente! A segurança dos dados é nossa prioridade. Todas as informações são criptografadas e seguimos rigorosos padrões de privacidade. Apenas os usuários autorizados têm acesso aos dados, e você sempre mantém o controle sobre quem pode ver as informações do idoso.</p>
+                        </div>
+                    </div>
+                    <div class="collapse collapse-arrow join-item border border-base-300">
+                        <input type="radio" name="my-accordion-4" /> 
+                        <div class="collapse-title text-lg font-medium">
+                            O aplicativo funciona sem internet?
+                        </div>
+                        <div class="collapse-content"> 
+                            <p>O aplicativo requer conexão com internet para sincronizar dados entre o idoso e os cuidadores. No entanto, algumas funções básicas como visualização de lembretes já programados podem funcionar offline. Quando a conexão for restabelecida, os dados serão sincronizados automaticamente.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-20 bg-primary text-primary-content">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6">Pronto para cuidar melhor do seu ente querido?</h2>
+            <p class="max-w-2xl mx-auto mb-8 text-lg opacity-90">
+                Comece hoje mesmo e experimente 7 dias grátis. Sem compromisso, cancele quando quiser.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="btn btn-secondary btn-lg">
+                    <i class="fas fa-play-circle mr-2"></i>
+                    Começar teste grátis
+                </button>
+                <button class="btn btn-outline btn-lg border-white text-white hover:bg-white hover:text-primary">
+                    <i class="fas fa-headset mr-2"></i>
+                    Falar com consultor
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-neutral text-neutral-content">
+        <div class="container mx-auto px-4 py-10">
+            <div class="footer p-10">
+                <div>
+                    <span class="footer-title">Produto</span> 
+                    <a class="link link-hover">Recursos</a> 
+                    <a class="link link-hover">Planos e preços</a> 
+                    <a class="link link-hover">Novidades</a> 
+                    <a class="link link-hover">FAQ</a>
+                </div> 
+                <div>
+                    <span class="footer-title">Empresa</span> 
+                    <a class="link link-hover">Sobre nós</a> 
+                    <a class="link link-hover">Contato</a> 
+                    <a class="link link-hover">Trabalhe conosco</a> 
+                    <a class="link link-hover">Imprensa</a>
+                </div> 
+                <div>
+                    <span class="footer-title">Legal</span> 
+                    <a class="link link-hover">Termos de uso</a> 
+                    <a class="link link-hover">Política de privacidade</a> 
+                    <a class="link link-hover">Política de cookies</a>
+                </div> 
+                <div>
+                    <span class="footer-title">Baixe o aplicativo</span> 
+                    <div class="flex gap-4 mt-4">
+                        <a class="btn btn-outline">
+                            <i class="fab fa-apple mr-2"></i>
+                            App Store
+                        </a>
+                        <a class="btn btn-outline">
+                            <i class="fab fa-google-play mr-2"></i>
+                            Google Play
+                        </a>
+                    </div>
+                    <div class="form-control w-80 mt-6">
+                        <label class="label">
+                            <span class="label-text text-neutral-content">Receba nossas novidades</span>
+                        </label> 
+                        <div class="relative">
+                            <input type="text" placeholder="seuemail@exemplo.com" class="input input-bordered w-full pr-16 bg-neutral-focus text-neutral-content" /> 
+                            <button class="btn btn-primary absolute top-0 right-0 rounded-l-none">Assinar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="divider"></div> 
+            <div class="footer items-center p-4">
+                <div class="items-center grid-flow-col">
+                    <a class="text-2xl font-bold flex items-center gap-2">
+                        <i class="fas fa-heart-pulse"></i>
+                        Cuida Mais App
+                    </a>
+                    <p class="ml-4">© 2023 Cuida Mais App. Todos os direitos reservados.</p>
+                </div> 
+                <div class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
+                    <a class="btn btn-ghost btn-circle">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a class="btn btn-ghost btn-circle">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a class="btn btn-ghost btn-circle">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a class="btn btn-ghost btn-circle">
+                        <i class="fab fa-youtube text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Estrutura do banco de dados (usando localStorage para demonstração)
+        // Em um ambiente real, isso seria implementado com um banco de dados real como MySQL, MongoDB, etc.
+        const initDatabase = () => {
+            // Tabela de usuários
+            if (!localStorage.getItem('users')) {
+                localStorage.setItem('users', JSON.stringify([]));
+            }
+            
+            // Tabela de idosos
+            if (!localStorage.getItem('seniors')) {
+                localStorage.setItem('seniors', JSON.stringify([]));
+            }
+            
+            // Tabela de medicamentos
+            if (!localStorage.getItem('medications')) {
+                localStorage.setItem('medications', JSON.stringify([]));
+            }
+            
+            // Tabela de eventos
+            if (!localStorage.getItem('events')) {
+                localStorage.setItem('events', JSON.stringify([]));
+            }
+            
+            console.log('Banco de dados inicializado com sucesso!');
+        };
+        
+        // Inicializar banco de dados
+        initDatabase();
+        
+        // Funções de autenticação
+        function showLoginForm() {
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('register-form').style.display = 'none';
+            document.querySelector('.tabs .tab:first-child').classList.add('tab-active');
+            document.querySelector('.tabs .tab:last-child').classList.remove('tab-active');
+        }
+        
+        function showRegisterForm() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('register-form').style.display = 'block';
+            document.querySelector('.tabs .tab:first-child').classList.remove('tab-active');
+            document.querySelector('.tabs .tab:last-child').classList.add('tab-active');
+        }
+        
+        function registerUser() {
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            // Validação básica
+            if (!name || !email || !password || !confirmPassword) {
+                alert('Por favor, preencha todos os campos');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('As senhas não coincidem');
+                return;
+            }
+            
+            // Verificar se o usuário já existe
+            const users = JSON.parse(localStorage.getItem('users'));
+            const existingUser = users.find(user => user.email === email);
+            
+            if (existingUser) {
+                alert('Este email já está cadastrado');
+                return;
+            }
+            
+            // Criar novo usuário (em um sistema real, a senha seria criptografada)
+            const newUser = {
+                id: Date.now().toString(),
+                name,
+                email,
+                password, // Em um sistema real, NUNCA armazene senhas em texto puro
+                createdAt: new Date().toISOString()
+            };
+            
+            // Adicionar ao banco de dados
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Fazer login automaticamente
+            sessionStorage.setItem('currentUser', JSON.stringify(newUser));
+            
+            // Fechar modal e atualizar UI
+            document.getElementById('modal-auth').close();
+            updateAuthUI();
+            
+            alert('Cadastro realizado com sucesso!');
+        }
+        
+        function loginUser() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Validação básica
+            if (!email || !password) {
+                alert('Por favor, preencha todos os campos');
+                return;
+            }
+            
+            // Verificar credenciais
+            const users = JSON.parse(localStorage.getItem('users'));
+            const user = users.find(user => user.email === email && user.password === password);
+            
+            if (!user) {
+                alert('Email ou senha incorretos');
+                return;
+            }
+            
+            // Armazenar usuário na sessão
+            sessionStorage.setItem('currentUser', JSON.stringify(user));
+            
+            // Fechar modal e atualizar UI
+            document.getElementById('modal-auth').close();
+            updateAuthUI();
+            
+            alert('Login realizado com sucesso!');
+        }
+        
+        function logoutUser() {
+            // Remover usuário da sessão
+            sessionStorage.removeItem('currentUser');
+            
+            // Atualizar UI
+            updateAuthUI();
+        }
+        
+        function updateAuthUI() {
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+            const authButton = document.querySelector('.navbar .btn-primary');
+            
+// Criar novo usuário (em um sistema real, a senha seria criptografada)
+    const newUser = {
+        id: Date.now().toString(),
+        name,
+        email,
+        password, // Em um sistema real, NUNCA armazene senhas em texto puro
+        userType, // Armazena se é idoso ou familiar
+        createdAt: new Date().toISOString()
+    };
+                            <li><a href="#"><i class="fas fa-user-circle mr-2"></i>Perfil</a></li>
+                            <li><a href="#"><i class="fas fa-cog mr-2"></i>Configurações</a></li>
+                            <li><a onclick="logoutUser()"><i class="fas fa-sign-out-alt mr-2"></i>Sair</a></li>
+                        </ul>
+                    </div>
+                `;
+            } else {
+                // Usuário não logado
+                authButton.innerHTML = 'Entrar';
+                authButton.onclick = function() {
+                    document.getElementById('modal-auth').showModal();
+                };
+            }
+        }
+        
+        // Verificar se há um usuário logado ao carregar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            updateAuthUI();
+        });
+    </script>
+</body>
+</html>
